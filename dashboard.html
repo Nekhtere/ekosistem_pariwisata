@@ -100,8 +100,8 @@ dialog::backdrop{background:rgba(16,33,63,.6)}
     <div class="st"><b id="cNo">0</b><span>Ditolak</span></div>
     <div class="st"><b id="cWa">0</b><span>WA disiapkan</span></div>
     <div class="st"><b id="cKul">0</b><span>Kuliner</span></div>
-    <div class="st"><b id="cKri">0</b><span>Kriya</span></div>
-    <div class="st"><b id="cFes">0</b><span>Fesyen</span></div>
+    <div class="st"><b id="cKri">0</b><span>Kerajinan</span></div>
+    <div class="st"><b id="cFes">0</b><span>Fashion</span></div>
     <div class="st"><b id="cJas">0</b><span>Jasa wisata</span></div>
     <div class="st"><b id="cPen">0</b><span>Sektor pendukung</span></div>
   </section>
@@ -154,7 +154,7 @@ dialog::backdrop{background:rgba(16,33,63,.6)}
   var sb=null;try{sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY)}catch(e){}
   var $=function(i){return document.getElementById(i)};
   var rows=[],cfg=null,dibuka=null,filt="all",term="";
-  var FILTERS=[["all","Semua"],["menunggu","Menunggu"],["disetujui","Disetujui"],["ditolak","Ditolak"],["Kuliner","Kuliner"],["Kriya","Kriya"],["Fesyen","Fesyen"],["Jasa wisata","Jasa wisata"],["Sektor pendukung lainnya","Pendukung"]];
+  var FILTERS=[["all","Semua"],["menunggu","Menunggu"],["disetujui","Disetujui"],["ditolak","Ditolak"],["Kuliner","Kuliner"],["Kerajinan","Kerajinan"],["Fashion","Fashion"],["Jasa wisata","Jasa wisata"],["Sektor pendukung lainnya","Pendukung"]];
   var LABEL={menunggu:"Menunggu",disetujui:"Disetujui",ditolak:"Ditolak"};
 
   function h(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
@@ -179,8 +179,8 @@ dialog::backdrop{background:rgba(16,33,63,.6)}
     $("cNo").textContent=cnt(function(r){return vs(r)==="ditolak"});
     $("cWa").textContent=cnt(function(r){return !!r.wa_terkirim_at});
     $("cKul").textContent=cnt(function(r){return r.bidang==="Kuliner"});
-    $("cKri").textContent=cnt(function(r){return r.bidang==="Kriya"});
-    $("cFes").textContent=cnt(function(r){return r.bidang==="Fesyen"});
+    $("cKri").textContent=cnt(function(r){return r.bidang==="Kerajinan"});
+    $("cFes").textContent=cnt(function(r){return r.bidang==="Fashion"});
     $("cJas").textContent=cnt(function(r){return r.bidang==="Jasa wisata"});
     $("cPen").textContent=cnt(function(r){return r.bidang==="Sektor pendukung lainnya"});
   }
@@ -474,7 +474,7 @@ dialog::backdrop{background:rgba(16,33,63,.6)}
     }
     var by=function(field,list){return list.map(function(v){return [v,data.filter(function(r){return r[field]===v}).length]})};
     section("Status verifikasi",VL,[["Menunggu",c.w],["Disetujui",c.ok],["Ditolak",c.no]]);
-    section("Bidang usaha","F",by("bidang",["Kuliner","Kriya","Fesyen","Jasa wisata","Sektor pendukung lainnya"]));
+    section("Bidang usaha","F",by("bidang",["Kuliner","Kerajinan","Fashion","Jasa wisata","Sektor pendukung lainnya"]));
     section("Lokasi usaha","G",by("lokasi",["Batam","Tanjungpinang","Bintan","Karimun","Lingga","Natuna","Kepulauan Anambas"]));
     section("Lama usaha berjalan","I",by("lama_usaha",["Kurang dari 1 tahun","1-3 tahun","Lebih dari 3 tahun"]));
     section("Tujuan mengikuti acara","J",by("tujuan",["Mencari mitra bisnis","Memasarkan ke ekosistem pariwisata","Menambah wawasan & jejaring"]));
