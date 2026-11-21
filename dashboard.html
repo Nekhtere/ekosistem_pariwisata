@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Dashboard · Sinergi UMKM Kepri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F8F3;--s:#fff;--ink:#10213F;--mut:#5B6678;--line:#E2E7DC;--navy:#10213F;--g:#147A40;--gbg:#E3F3EA;--y:#FFC531;--err:#B3123A;--ebg:#FCE5EB;color-scheme:light;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+html{background:var(--navy);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Plus Jakarta Sans",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,p{margin:0}
+:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+.top{background:var(--navy);color:#fff;border-bottom:4px solid var(--y)}
+.in,.shell{max-width:1000px;margin:0 auto}
+.in{padding:18px 16px 18px;display:grid;gap:14px}
+.eb{font-size:.74rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--y)}
+.top h1{font-size:clamp(1.4rem,5vw,1.8rem);font-weight:800;line-height:1.15;margin-top:2px}
+#who{margin-top:6px;font-size:.82rem;color:rgba(255,255,255,.7);overflow-wrap:anywhere}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{font:700 .9rem "Plus Jakarta Sans",system-ui,sans-serif;min-height:46px;padding:8px 12px;border-radius:12px;border:2px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-align:center;line-height:1.2;text-decoration:none}
+.btn:disabled{opacity:.55;cursor:default}
+.pri{background:var(--y);color:var(--ink)}
+.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.top .ghost{color:#fff;border-color:rgba(255,255,255,.4)}
+.dng{background:var(--err);color:#fff}
+.ok{background:var(--g);color:#fff}
+.no{background:transparent;color:var(--err);border-color:var(--err)}
+.shell{padding:16px 16px 80px}
+.quota{background:var(--navy);color:#fff;border-radius:20px;padding:18px 20px}
+.quota span{display:block;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.75)}
+.qn{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.qn b{font-size:2.8rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}.qn small{font-size:1rem;color:rgba(255,255,255,.75)}
+.meter{height:10px;border-radius:99px;background:rgba(255,255,255,.18);margin-top:12px;overflow:hidden}.meter i{display:block;height:100%;width:0;background:var(--y);transition:width .4s}
+.counts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.st{background:var(--s);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.st b{display:block;font-size:1.6rem;font-weight:800;line-height:1.15}.st span{font-size:.84rem;font-weight:600;color:var(--mut)}
+.rs{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--s);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.rs>div{display:flex;align-items:center;gap:12px;min-width:0}.rs b{display:block;font-size:.95rem;line-height:1.3}.rs p{font-size:.82rem;color:var(--mut)}
+.rs>.rb{flex:none;gap:8px}.dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--mut)}
+.rs[data-s=open] .dot{background:var(--g);box-shadow:0 0 0 4px var(--gbg)}.rs[data-s=closed] .dot{background:var(--err);box-shadow:0 0 0 4px var(--ebg)}
+.tools{margin-top:16px;display:grid;gap:10px}
+.sf input{width:100%;height:50px;padding:0 16px;font:inherit;font-size:16px;color:var(--ink);background:var(--s);border:2px solid var(--line);border-radius:14px}
+.sf input:focus-visible{outline:none;border-color:var(--ink)}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:2px 16px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font:700 .86rem "Plus Jakarta Sans",system-ui,sans-serif;height:44px;padding:0 14px;border-radius:99px;border:2px solid var(--line);background:var(--s);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.chip[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}.chip i{font-style:normal;opacity:.7}
+#cnt{font-size:.84rem;color:var(--mut)}
+.list{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+@media (min-width:760px){.list{grid-template-columns:1fr 1fr}.counts{grid-template-columns:repeat(4,1fr)}.acts{grid-template-columns:repeat(2,auto);justify-content:start}.in{grid-template-columns:1fr auto;align-items:end}}
+.reg{background:var(--s);border:1px solid var(--line);border-radius:18px;padding:14px 16px 12px 20px;box-shadow:inset 5px 0 0 var(--c,var(--y));display:grid;gap:8px;align-content:start}
+.reg[data-v=disetujui]{--c:var(--g)}.reg[data-v=ditolak]{--c:var(--err)}
+.r1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.reg h3{font-size:1.05rem;font-weight:800;line-height:1.25;overflow-wrap:anywhere}
+.kode{flex:none;font-size:.78rem;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--navy);color:var(--y);letter-spacing:.04em}
+.reg p{font-size:.88rem;color:var(--mut);overflow-wrap:anywhere}
+.tags{display:flex;flex-wrap:wrap;gap:6px}.tags span{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--gbg);color:var(--g)}.tags span.b{background:#FFF1C9;color:#6B4E00}
+.tags span.v-menunggu{background:#FFF1C9;color:#6B4E00}.tags span.v-disetujui{background:var(--g);color:#fff}.tags span.v-ditolak{background:var(--ebg);color:var(--err)}.tags span.n{background:var(--navy);color:var(--y)}
+.wa{color:var(--ink);font-weight:800;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:2px;text-underline-offset:3px;padding:4px 0;display:inline-block}
+.r4{display:flex;flex-wrap:wrap;gap:8px}.r4 .btn{min-height:42px;padding:6px 14px;flex:1 1 auto}
+.r3{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:8px}
+.r3 small{font-size:.8rem;color:var(--mut)}
+.del{background:transparent;color:var(--err);min-height:40px;padding:6px 12px}
+.empty{background:var(--s);border:2px dashed var(--line);border-radius:18px;padding:36px 16px;text-align:center;color:var(--mut)}
+dialog{border:0;border-radius:22px;padding:0;width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;background:var(--s);color:var(--ink);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(16,33,63,.6)}
+.dg{padding:22px 20px}.dg h2{font-size:1.2rem;font-weight:800}.dg p{margin-top:8px;color:var(--mut)}
+.dgb{display:flex;gap:10px;margin-top:20px}.dgb .btn{flex:1}
+.fl{display:block;font-weight:700;font-size:.85rem;margin:14px 0 4px}
+.dg input,.dg textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--s);border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.dg input:focus-visible,.dg textarea:focus-visible{outline:none;border-color:var(--ink)}
+.dg textarea{resize:vertical;line-height:1.45}
+.dg .hint{font-size:.78rem;margin-top:6px}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;max-width:420px;margin:0 auto;padding:12px 16px;border-radius:14px;background:var(--navy);color:#fff;font-weight:700;font-size:.92rem;text-align:center}
+#toast.err{background:var(--err)}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <div><p class="eb">Dashboard Admin</p><h1>Sinergi UMKM Ekosistem Pariwisata Kepri</h1><p id="who">Memuat...</p></div>
+  <div class="acts">
+    <button class="btn pri" id="xlsx" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px" aria-hidden="true"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 20h16"/></svg><span id="xlsxT">Unduh Excel</span></button>
+    <button class="btn ghost" id="out" type="button">Keluar</button>
+  </div>
+</div></header>
+
+<main class="shell">
+  <section class="quota" aria-label="Verifikasi">
+    <span>Menunggu verifikasi</span>
+    <div class="qn"><b id="qW">0</b><small>dari <span id="qT" style="display:inline;color:inherit;font-weight:700">0</span> pendaftar</small></div>
+    <div class="meter"><i id="meterI"></i></div>
+  </section>
+  <section class="counts" aria-label="Ringkasan">
+    <div class="st"><b id="cOk">0</b><span>Disetujui</span></div>
+    <div class="st"><b id="cNo">0</b><span>Ditolak</span></div>
+    <div class="st"><b id="cWa">0</b><span>WA disiapkan</span></div>
+    <div class="st"><b id="cKul">0</b><span>Kuliner</span></div>
+    <div class="st"><b id="cKri">0</b><span>Kriya</span></div>
+    <div class="st"><b id="cFes">0</b><span>Fesyen</span></div>
+    <div class="st"><b id="cJas">0</b><span>Jasa wisata</span></div>
+    <div class="st"><b id="cPen">0</b><span>Sektor pendukung</span></div>
+  </section>
+  <section class="rs" id="rs" data-s="">
+    <div><span class="dot"></span><div><b id="rsT">Memuat status...</b><p id="rsP"></p></div></div>
+    <div class="rb"><button class="btn ghost" id="cfgBtn" type="button">Lokasi &amp; WA</button><button class="btn ghost" id="toggle" type="button" disabled>...</button></div>
+  </section>
+
+  <section class="tools">
+    <div class="sf"><input id="q" type="search" placeholder="Cari nama, usaha, lokasi, kode, atau WA" autocomplete="off" aria-label="Cari peserta"></div>
+    <div class="chips" id="chips"></div>
+    <p id="cnt" aria-live="polite"></p>
+  </section>
+  <ul class="list" id="list"></ul>
+</main>
+
+<dialog id="dlg"><div class="dg"><h2 id="dT"></h2><p id="dB"></p><div class="dgb"><button class="btn ghost" id="dNo" type="button">Batal</button><button class="btn dng" id="dYes" type="button">Ya</button></div></div></dialog>
+
+<dialog id="dWa"><div class="dg">
+  <h2 id="wT">Pesan WhatsApp</h2>
+  <p id="wP"></p>
+  <label class="fl" for="wMsg">Isi pesan</label>
+  <textarea id="wMsg" rows="11" readonly></textarea>
+  <div class="dgb" style="flex-wrap:wrap">
+    <button class="btn ghost" id="wCopy" type="button">Salin pesan</button>
+    <a class="btn ok" id="wOpen" href="#" target="_blank" rel="noopener">Buka WhatsApp</a>
+  </div>
+  <div class="dgb" style="margin-top:10px"><button class="btn ghost" id="wClose" type="button">Tutup</button></div>
+</div></dialog>
+
+<dialog id="dCfg"><div class="dg">
+  <h2>Lokasi, grup &amp; template WA</h2>
+  <p>Dikirim ke peserta yang sudah disetujui.</p>
+  <label class="fl" for="cNama">Nama lokasi</label><input id="cNama" type="text" maxlength="200">
+  <label class="fl" for="cAlamat">Alamat</label><input id="cAlamat" type="text" maxlength="500">
+  <label class="fl" for="cGps">Link GPS (Google Maps)</label><input id="cGps" type="url" maxlength="500" inputmode="url">
+  <label class="fl" for="cGrup">Link grup WhatsApp</label><input id="cGrup" type="url" maxlength="500" inputmode="url">
+  <label class="fl" for="cTpl">Template pesan</label><textarea id="cTpl" rows="10" maxlength="3000"></textarea>
+  <p class="hint">Isi otomatis: {nama} {usaha} {kode} {lokasi} {alamat} {gps} {grup}</p>
+  <div class="dgb"><button class="btn ghost" id="cNo2" type="button">Batal</button><button class="btn ok" id="cSave" type="button">Simpan</button></div>
+</div></dialog>
+
+<div id="toast" role="status" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(function(){
+  var SUPABASE_URL="https://yseofhlgvgrkdjjqctxw.supabase.co";
+  var SUPABASE_ANON_KEY="sb_publishable_IOL0yPVUlD4V8l-GIy5o7w_OtwfMlcT";
+  var sb=null;try{sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY)}catch(e){}
+  var $=function(i){return document.getElementById(i)};
+  var rows=[],cfg=null,dibuka=null,filt="all",term="";
+  var FILTERS=[["all","Semua"],["menunggu","Menunggu"],["disetujui","Disetujui"],["ditolak","Ditolak"],["Kuliner","Kuliner"],["Kriya","Kriya"],["Fesyen","Fesyen"],["Jasa wisata","Jasa wisata"],["Sektor pendukung lainnya","Pendukung"]];
+  var LABEL={menunggu:"Menunggu",disetujui:"Disetujui",ditolak:"Ditolak"};
+
+  function h(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
+  var tt;function toast(m,err){var t=$("toast");t.textContent=m;t.className=err?"err":"";t.hidden=false;clearTimeout(tt);tt=setTimeout(function(){t.hidden=true},3500)}
+  function confirmBox(o){
+    $("dT").textContent=o.title;$("dB").textContent=o.body;$("dYes").textContent=o.yes;
+    var d=$("dlg");d.showModal();
+    $("dNo").onclick=function(){d.close()};
+    $("dYes").onclick=function(){d.close();o.onYes()};
+  }
+  function wib(s){return new Date(s).toLocaleString("id-ID",{timeZone:"Asia/Jakarta",day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})+" WIB"}
+  function isBaru(r){return Date.now()-new Date(r.created_at).getTime()<36e5}
+  function vs(r){return r.verifikasi||"menunggu"}
+  function match(r,f){return f==="all"||vs(r)===f||r.bidang===f}
+  function cnt(fn){return rows.filter(fn).length}
+
+  function stats(){
+    var n=rows.length,w=cnt(function(r){return vs(r)==="menunggu"});
+    $("qW").textContent=w;$("qT").textContent=n;
+    $("meterI").style.width=(n?(n-w)/n*100:0)+"%";
+    $("cOk").textContent=cnt(function(r){return vs(r)==="disetujui"});
+    $("cNo").textContent=cnt(function(r){return vs(r)==="ditolak"});
+    $("cWa").textContent=cnt(function(r){return !!r.wa_terkirim_at});
+    $("cKul").textContent=cnt(function(r){return r.bidang==="Kuliner"});
+    $("cKri").textContent=cnt(function(r){return r.bidang==="Kriya"});
+    $("cFes").textContent=cnt(function(r){return r.bidang==="Fesyen"});
+    $("cJas").textContent=cnt(function(r){return r.bidang==="Jasa wisata"});
+    $("cPen").textContent=cnt(function(r){return r.bidang==="Sektor pendukung lainnya"});
+  }
+  function chips(){
+    var box=$("chips");box.textContent="";
+    FILTERS.forEach(function(f){
+      var b=h("button","chip",f[1]);b.type="button";b.setAttribute("aria-pressed",filt===f[0]);
+      b.appendChild(h("i",null,cnt(function(r){return match(r,f[0])})));
+      b.onclick=function(){filt=f[0];chips();draw()};box.appendChild(b);
+    });
+  }
+  function btn(cls,txt,fn){var b=h("button","btn "+cls,txt);b.type="button";b.onclick=fn;return b}
+
+  function draw(){
+    var L=$("list");L.textContent="";
+    var t=term.toLowerCase().trim();
+    var v=rows.filter(function(r){
+      return match(r,filt)&&(!t||[r.nama,r.nama_usaha,r.produk,r.lokasi,r.bidang,r.kode,r.wa].join(" ").toLowerCase().indexOf(t)>-1);
+    });
+    $("cnt").textContent=v.length+" dari "+rows.length+" peserta";
+    if(!v.length){L.appendChild(h("li","empty",rows.length?"Tidak ada peserta yang cocok.":"Belum ada pendaftar."));return}
+    v.forEach(function(r){
+      var s=vs(r),li=h("li","reg");li.dataset.v=s;
+      var a=h("div","r1");a.appendChild(h("h3",null,r.nama));a.appendChild(h("span","kode",r.kode));li.appendChild(a);
+      var tg=h("div","tags");
+      tg.appendChild(h("span","v-"+s,LABEL[s]));
+      if(isBaru(r))tg.appendChild(h("span","n","Baru"));
+      tg.appendChild(h("span",null,r.bidang));tg.appendChild(h("span","b",r.lokasi));li.appendChild(tg);
+      li.appendChild(h("p",null,r.nama_usaha+" · "+r.produk));
+      li.appendChild(h("p",null,"Usaha "+r.lama_usaha.toLowerCase()+" · Tujuan: "+r.tujuan));
+      var w=h("a","wa","+"+r.wa);w.href="https://wa.me/"+r.wa;w.target="_blank";w.rel="noopener";
+      var p=h("p");p.appendChild(w);li.appendChild(p);
+      var ac=h("div","r4");
+      if(s==="menunggu"){
+        ac.appendChild(btn("ok","Setujui & kirim WA",function(){setujuiKirim(r)}));
+        ac.appendChild(btn("no","Tolak",function(){tolak(r)}));
+      }else if(s==="disetujui"){
+        ac.appendChild(btn("ok",r.wa_terkirim_at?"Kirim WA lagi":"Kirim WA",function(){kirimWA(r)}));
+        ac.appendChild(btn("ghost","Kembalikan",function(){setVerif(r,"menunggu")}));
+      }else{
+        ac.appendChild(btn("ok","Setujui & kirim WA",function(){setujuiKirim(r)}));
+        ac.appendChild(btn("ghost","Kembalikan",function(){setVerif(r,"menunggu")}));
+      }
+      li.appendChild(ac);
+      if(s==="disetujui"&&r.wa_terkirim_at)li.appendChild(h("p",null,"Pesan WA disiapkan "+wib(r.wa_terkirim_at)));
+      var f=h("div","r3");f.appendChild(h("small",null,"Daftar "+wib(r.created_at)));
+      var d=h("button","btn del","Hapus");d.type="button";d.onclick=function(){hapus(r)};f.appendChild(d);li.appendChild(f);
+      L.appendChild(li);
+    });
+  }
+
+  function setVerif(r,s){
+    sb.rpc("set_verifikasi_sinergi",{p_id:r.id,p_status:s}).then(function(res){
+      if(res.error){toast("Gagal: "+res.error.message,1);return}
+      r.verifikasi=s;
+      r.diverifikasi_at=s==="menunggu"?null:new Date().toISOString();
+      if(s!=="disetujui")r.wa_terkirim_at=null;
+      stats();chips();draw();
+      toast(r.nama+": "+LABEL[s].toLowerCase());
+    });
+  }
+  function tolak(r){
+    confirmBox({title:"Tolak pendaftar?",body:r.nama+" ("+r.kode+") akan ditandai ditolak. Bisa dikembalikan ke menunggu.",yes:"Tolak",onYes:function(){setVerif(r,"ditolak")}});
+  }
+  function hapus(r){
+    confirmBox({title:"Hapus pendaftar?",body:r.nama+" ("+r.kode+") akan dihapus permanen.",yes:"Hapus",onYes:function(){
+      sb.from("sinergi_peserta").delete().eq("id",r.id).select("id").then(function(res){
+        if(res.error){toast("Gagal menghapus: "+res.error.message,1);return}
+        if(!res.data||!res.data.length){toast("Tidak ada izin menghapus (cek policy RLS).",1);return}
+        rows=rows.filter(function(x){return x.id!==r.id});stats();chips();draw();toast(r.nama+" dihapus");
+      });
+    }});
+  }
+
+  /* ---------- Pesan WhatsApp ---------- */
+  function cfgOk(){
+    if(!cfg||!cfg.lokasi_gps||!cfg.link_grup||!cfg.lokasi_nama){
+      toast("Isi dulu lokasi, link GPS, dan link grup.",1);bukaCfg();return false;
+    }
+    return true;
+  }
+  // Tab dibuka SEKARANG (saat klik) supaya tidak diblokir browser, lalu diarahkan ke WhatsApp setelah pesan siap.
+  function tabWA(){var w=null;try{w=window.open("","_blank")}catch(e){}return w}
+  function siapWA(r,w){
+    return sb.rpc("pesan_wa_sinergi",{p_id:r.id}).then(function(res){
+      var d=res.data&&res.data[0];
+      if(res.error||!d){
+        if(w)try{w.close()}catch(e){}
+        var m=res.error?res.error.message:"";
+        toast(/BELUM_DISETUJUI/.test(m)?"Peserta belum disetujui.":"Gagal menyiapkan pesan"+(m?": "+m:""),1);return;
+      }
+      r.wa_terkirim_at=new Date().toISOString();draw();
+      var url="https://wa.me/"+d.wa+"?text="+encodeURIComponent(d.pesan);
+      if(w){
+        try{w.location.href=url;toast("WhatsApp dibuka. Tinggal tekan kirim.");return}catch(e){}
+      }
+      $("wT").textContent="Kirim ke "+r.nama;
+      $("wP").textContent="+"+d.wa;
+      $("wMsg").value=d.pesan;
+      $("wOpen").href=url;
+      $("dWa").showModal();
+    });
+  }
+  function kirimWA(r){
+    if(!cfgOk())return;
+    siapWA(r,tabWA());
+  }
+  function setujuiKirim(r){
+    if(!cfgOk())return;
+    var w=tabWA();
+    sb.rpc("set_verifikasi_sinergi",{p_id:r.id,p_status:"disetujui"}).then(function(res){
+      if(res.error){if(w)try{w.close()}catch(e){}toast("Gagal: "+res.error.message,1);return}
+      r.verifikasi="disetujui";r.diverifikasi_at=new Date().toISOString();
+      stats();chips();draw();
+      return siapWA(r,w);
+    });
+  }
+  $("wClose").onclick=function(){$("dWa").close()};
+  $("wCopy").onclick=function(){
+    var ta=$("wMsg");
+    function ok(){toast("Pesan disalin")}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(ok,function(){ta.select();document.execCommand("copy");ok()})}
+    else{ta.select();document.execCommand("copy");ok()}
+  };
+
+  /* ---------- Konfigurasi ---------- */
+  function bukaCfg(){
+    if(!cfg){toast("Konfigurasi belum termuat. Muat ulang halaman.",1);return}
+    $("cNama").value=cfg.lokasi_nama||"";$("cAlamat").value=cfg.lokasi_alamat||"";
+    $("cGps").value=cfg.lokasi_gps||"";$("cGrup").value=cfg.link_grup||"";$("cTpl").value=cfg.template_wa||"";
+    var d=$("dCfg");if(!d.open)d.showModal();
+  }
+  $("cfgBtn").onclick=bukaCfg;
+  $("cNo2").onclick=function(){$("dCfg").close()};
+  $("cSave").onclick=function(){
+    var v={lokasi_nama:$("cNama").value.trim(),lokasi_alamat:$("cAlamat").value.trim(),lokasi_gps:$("cGps").value.trim(),link_grup:$("cGrup").value.trim(),template_wa:$("cTpl").value};
+    var b=$("cSave");b.disabled=true;
+    sb.rpc("set_config_sinergi",{p_lokasi_nama:v.lokasi_nama,p_lokasi_alamat:v.lokasi_alamat,p_lokasi_gps:v.lokasi_gps,p_link_grup:v.link_grup,p_template_wa:v.template_wa}).then(function(r){
+      b.disabled=false;
+      if(r.error){toast("Gagal menyimpan: "+r.error.message,1);return}
+      for(var k in v)cfg[k]=v[k];
+      $("dCfg").close();toast("Pengaturan disimpan");
+    });
+  };
+
+  function loadCfg(){
+    return sb.rpc("get_config_sinergi").then(function(r){
+      var d=r.data&&r.data[0],b=$("toggle");
+      if(r.error||!d){b.textContent="Tidak tersedia";$("rsT").textContent="Status pendaftaran tidak diketahui";$("rsP").textContent=r.error?r.error.message:"";return}
+      cfg=d;dibuka=!!d.dibuka;
+      $("rs").dataset.s=dibuka?"open":"closed";b.disabled=false;
+      $("rsT").textContent=dibuka?"Pendaftaran dibuka":"Pendaftaran ditutup";
+      $("rsP").textContent=dibuka?"Form menerima pendaftar. Semua masuk antrean verifikasi.":"Form tidak menerima pendaftar baru.";
+      b.textContent=dibuka?"Tutup":"Buka";
+    });
+  }
+  $("toggle").onclick=function(){
+    confirmBox({title:dibuka?"Tutup pendaftaran?":"Buka pendaftaran?",body:dibuka?"Pendaftar baru tidak bisa mengirim form.":"Pendaftar baru bisa mengirim form kembali.",yes:dibuka?"Tutup":"Buka",onYes:function(){
+      $("toggle").disabled=true;
+      sb.rpc("set_pendaftaran_sinergi",{p_buka:!dibuka}).then(function(r){
+        if(r.error){$("toggle").disabled=false;toast("Gagal: "+r.error.message,1);return}
+        loadCfg().then(function(){toast(dibuka?"Pendaftaran dibuka":"Pendaftaran ditutup")});
+      });
+    }});
+  };
+  function load(quiet){
+    return sb.from("sinergi_peserta").select("*").order("created_at",{ascending:false}).then(function(r){
+      if(r.error){if(!quiet)toast("Gagal memuat data: "+r.error.message,1);return}
+      rows=r.data||[];stats();chips();draw();return loadCfg();
+    });
+  }
+  /* ---------- Unduh Excel ---------- */
+  function loadXlsx(){
+    if(window.ExcelJS)return Promise.resolve();
+    return new Promise(function(ok,no){
+      var sc=document.createElement("script");
+      sc.src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js";
+      sc.onload=ok;sc.onerror=no;document.head.appendChild(sc);
+    });
+  }
+  function wibDate(x){return new Date(new Date(x).getTime()+7*36e5)}
+  function buildXlsx(){
+    var NAVY="FF10213F",YEL="FFFFC531",LINE="FFE2E7DC",ZEBRA="FFF6F8F3",FONT="Calibri";
+    var data=rows.slice().reverse(),n=data.length,LAST=Math.max(n,1)+5,CAP=1000;
+    var c={w:0,ok:0,no:0};
+    data.forEach(function(r){c[{menunggu:"w",disetujui:"ok",ditolak:"no"}[vs(r)]]++});
+    var wb=new ExcelJS.Workbook();wb.creator="Panitia Sinergi UMKM Ekosistem Pariwisata Kepri";wb.created=new Date();
+
+    /* Sheet 1: Peserta */
+    var cols=[["No",6],["Kode",12],["Nama lengkap",28],["WhatsApp",19],["Nama usaha",30],["Bidang usaha",18],["Lokasi usaha",17],["Produk / layanan",34],["Lama usaha",19],["Tujuan mengikuti acara",34],["Verifikasi",15],["Waktu daftar (WIB)",21],["WA disiapkan",15]];
+    var NC=cols.length,endCol="M",VC=11,VL="K";
+    var CTR=[1,2,9,11,13];   // kolom (mulai 1) yang rata tengah
+    var ws=wb.addWorksheet("Peserta",{
+      views:[{state:"frozen",xSplit:3,ySplit:5,showGridLines:false}],
+      properties:{tabColor:{argb:YEL}},
+      pageSetup:{paperSize:9,orientation:"landscape",fitToPage:true,fitToWidth:1,fitToHeight:0,printTitlesRow:"5:5",margins:{left:.4,right:.4,top:.6,bottom:.6,header:.3,footer:.3}}
+    });
+    ws.headerFooter.oddFooter="&LSinergi UMKM Ekosistem Pariwisata Kepri&RHalaman &P dari &N";
+    cols.forEach(function(k,i){ws.getColumn(i+1).width=k[1]});
+
+    ws.mergeCells("A1:"+endCol+"1");
+    var t=ws.getCell("A1");t.value="SINERGI UMKM EKOSISTEM PARIWISATA KEPRI  ·  Data Peserta";
+    t.font={name:FONT,size:20,bold:true,color:{argb:"FFFFFFFF"}};
+    t.alignment={vertical:"middle",horizontal:"left",indent:1};
+    ws.getRow(1).height=42;
+    ws.mergeCells("A2:"+endCol+"2");
+    var st=ws.getCell("A2");st.value="Peluang, Kolaborasi, dan Pertumbuhan Bisnis   |   Ahad, 22 November 2026, 09.00 – 12.00 WIB   |   Hotel Golden View Batam   |   Diunduh "+wib(new Date().toISOString());
+    st.font={name:FONT,size:11,bold:true,color:{argb:YEL}};
+    st.alignment={vertical:"middle",horizontal:"left",indent:1};
+    ws.getRow(2).height=24;
+    for(var rr=1;rr<=2;rr++)for(var cc=1;cc<=NC;cc++)ws.getCell(rr,cc).fill={type:"pattern",pattern:"solid",fgColor:{argb:NAVY}};
+
+    ws.mergeCells("A3:"+endCol+"3");
+    var sm=ws.getCell("A3");
+    sm.value="Total "+n+"   ·   Disetujui "+c.ok+"   ·   Menunggu "+c.w+"   ·   Ditolak "+c.no;
+    sm.font={name:FONT,size:12,bold:true,color:{argb:NAVY}};
+    sm.alignment={vertical:"middle",horizontal:"left",indent:1};
+    for(cc=1;cc<=NC;cc++){ws.getCell(3,cc).fill={type:"pattern",pattern:"solid",fgColor:{argb:"FFFFF1C9"}}}
+    ws.getRow(3).height=28;
+    ws.getRow(4).height=8;
+
+    var hr=ws.getRow(5);hr.height=32;
+    cols.forEach(function(k,i){
+      var cell=hr.getCell(i+1),ctr=CTR.indexOf(i+1)>-1;cell.value=k[0];
+      cell.font={name:FONT,size:11,bold:true,color:{argb:"FFFFFFFF"}};
+      cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:NAVY}};
+      cell.alignment={vertical:"middle",horizontal:ctr?"center":"left",wrapText:true,indent:ctr?0:1};
+      cell.border={bottom:{style:"thick",color:{argb:YEL}}};
+    });
+
+    data.forEach(function(r,i){
+      var row=ws.getRow(6+i),s=vs(r);
+      var vals=[i+1,r.kode,r.nama,null,r.nama_usaha,r.bidang,r.lokasi,r.produk,r.lama_usaha,r.tujuan,LABEL[s],wibDate(r.created_at),r.wa_terkirim_at?"Ya":"Belum"];
+      vals.forEach(function(v,k){row.getCell(k+1).value=v});
+      var wc=row.getCell(4);wc.value={text:"+"+r.wa,hyperlink:"https://wa.me/"+r.wa};wc.numFmt="@";
+      var lines=1;
+      [[2,12],[3,28],[4,19],[5,30],[6,18],[7,17],[8,34],[9,19],[10,34]].forEach(function(p){lines=Math.max(lines,Math.ceil(String(vals[p[0]-1]==null?"":vals[p[0]-1]).length/(p[1]-2)))});
+      row.height=Math.max(26,lines*17+9);
+      for(var k=1;k<=NC;k++){
+        var cell=row.getCell(k),ctr=CTR.indexOf(k)>-1;
+        cell.font={name:FONT,size:11,bold:k===3||k===2||k===VC,color:{argb:k===4?"FF0B63CE":NAVY},underline:k===4};
+        cell.alignment={vertical:"middle",horizontal:ctr?"center":"left",wrapText:true,indent:ctr?0:1};
+        cell.border={bottom:{style:"thin",color:{argb:LINE}}};
+        if(i%2===1)cell.fill={type:"pattern",pattern:"solid",fgColor:{argb:ZEBRA}};
+      }
+      row.getCell(12).numFmt="dd mmm yyyy, hh:mm";
+      row.getCell(1).font={name:FONT,size:10,color:{argb:"FF8A93A3"}};
+      row.getCell(2).font={name:FONT,size:11,bold:true,color:{argb:NAVY}};
+    });
+
+    // dropdown + warna otomatis di kolom Verifikasi (tetap berfungsi kalau diedit di Excel)
+    for(var q=6;q<6+Math.max(n,1)+200;q++){
+      ws.getCell(q,VC).dataValidation={type:"list",allowBlank:true,formulae:['"Menunggu,Disetujui,Ditolak"'],showErrorMessage:true,errorTitle:"Pilihan tidak valid",error:"Pilih: Menunggu, Disetujui, atau Ditolak."};
+    }
+    var cf=function(txt,bg,fg){return{type:"cellIs",operator:"equal",formulae:['"'+txt+'"'],style:{fill:{type:"pattern",pattern:"solid",bgColor:{argb:bg}},font:{color:{argb:fg},bold:true}}}};
+    ws.addConditionalFormatting({ref:VL+"6:"+VL+CAP,rules:[cf("Disetujui","FFE3F3EA","FF147A40"),cf("Menunggu","FFFFF1C9","FF6B4E00"),cf("Ditolak","FFFCE5EB","FFB3123A")]});
+    ws.autoFilter={from:{row:5,column:1},to:{row:LAST,column:NC}};
+
+    /* Sheet 2: Ringkasan (rumus hidup, ikut berubah kalau data di sheet Peserta diedit) */
+    var rs=wb.addWorksheet("Ringkasan",{views:[{showGridLines:false}],properties:{tabColor:{argb:"FF147A40"}},pageSetup:{paperSize:9,orientation:"portrait",fitToPage:true,fitToWidth:1,fitToHeight:0}});
+    rs.getColumn(1).width=38;rs.getColumn(2).width=14;rs.getColumn(3).width=14;
+    rs.mergeCells("A1:C1");var h1=rs.getCell("A1");h1.value="Ringkasan Pendaftar";
+    h1.font={name:FONT,size:18,bold:true,color:{argb:"FFFFFFFF"}};h1.alignment={vertical:"middle",indent:1};
+    for(cc=1;cc<=3;cc++)rs.getCell(1,cc).fill={type:"pattern",pattern:"solid",fgColor:{argb:NAVY}};
+    rs.getRow(1).height=38;
+    rs.mergeCells("A2:C2");var h2=rs.getCell("A2");h2.value="SINERGI UMKM EKOSISTEM PARIWISATA KEPRI";
+    h2.font={name:FONT,size:10,bold:true,color:{argb:YEL}};h2.alignment={vertical:"middle",indent:1};
+    for(cc=1;cc<=3;cc++)rs.getCell(2,cc).fill={type:"pattern",pattern:"solid",fgColor:{argb:NAVY}};
+    rs.getRow(2).height=20;
+    var rng=function(col){return "Peserta!$"+col+"$6:$"+col+"$"+CAP};
+    var ry=4;
+    function section(title,col,items){
+      rs.mergeCells(ry,1,ry,3);
+      var sh=rs.getCell(ry,1);sh.value=title;sh.font={name:FONT,size:11,bold:true,color:{argb:NAVY}};sh.alignment={vertical:"middle",indent:1};
+      for(var z=1;z<=3;z++){rs.getCell(ry,z).fill={type:"pattern",pattern:"solid",fgColor:{argb:YEL}}}
+      rs.getRow(ry).height=24;ry++;
+      items.forEach(function(it){
+        var r=rs.getRow(ry);r.height=24;
+        r.getCell(1).value=it[0];
+        r.getCell(2).value={formula:'COUNTIF('+rng(col)+',"'+it[0]+'")',result:it[1]};
+        r.getCell(3).value={formula:'IFERROR(B'+ry+'/COUNTA(Peserta!$B$6:$B$'+CAP+'),0)',result:n?it[1]/n:0};
+        r.getCell(3).numFmt="0%";
+        for(var z=1;z<=3;z++){
+          var cl=r.getCell(z);cl.font={name:FONT,size:11,bold:z===2,color:{argb:NAVY}};
+          cl.alignment={vertical:"middle",horizontal:z===1?"left":"center",indent:z===1?1:0};
+          cl.border={bottom:{style:"thin",color:{argb:LINE}}};
+        }
+        ry++;
+      });
+      ry++;
+    }
+    var by=function(field,list){return list.map(function(v){return [v,data.filter(function(r){return r[field]===v}).length]})};
+    section("Status verifikasi",VL,[["Menunggu",c.w],["Disetujui",c.ok],["Ditolak",c.no]]);
+    section("Bidang usaha","F",by("bidang",["Kuliner","Kriya","Fesyen","Jasa wisata","Sektor pendukung lainnya"]));
+    section("Lokasi usaha","G",by("lokasi",["Batam","Tanjungpinang","Bintan","Karimun","Lingga","Natuna","Kepulauan Anambas"]));
+    section("Lama usaha berjalan","I",by("lama_usaha",["Kurang dari 1 tahun","1-3 tahun","Lebih dari 3 tahun"]));
+    section("Tujuan mengikuti acara","J",by("tujuan",["Mencari mitra bisnis","Memasarkan ke ekosistem pariwisata","Menambah wawasan & jejaring"]));
+    rs.mergeCells(ry,1,ry,3);
+    var tot=rs.getCell(ry,1);tot.value={formula:'"Total pendaftar: "&COUNTA(Peserta!$B$6:$B$'+CAP+')',result:"Total pendaftar: "+n};
+    tot.font={name:FONT,size:12,bold:true,color:{argb:"FFFFFFFF"}};tot.alignment={vertical:"middle",indent:1};
+    for(cc=1;cc<=3;cc++)rs.getCell(ry,cc).fill={type:"pattern",pattern:"solid",fgColor:{argb:NAVY}};
+    rs.getRow(ry).height=28;
+    return wb;
+  }
+  $("xlsx").onclick=function(){
+    if(!rows.length){toast("Belum ada data untuk diunduh",1);return}
+    var b=$("xlsx"),tx=$("xlsxT");b.disabled=true;tx.textContent="Menyiapkan...";
+    var done=function(){b.disabled=false;tx.textContent="Unduh Excel"};
+    loadXlsx().then(function(){return buildXlsx().xlsx.writeBuffer()}).then(function(buf){
+      var blob=new Blob([buf],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
+      var a=document.createElement("a");a.href=URL.createObjectURL(blob);
+      a.download="Sinergi-UMKM-Kepri-Peserta-"+new Date().toISOString().slice(0,10)+".xlsx";
+      document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000);
+      done();toast("Excel diunduh");
+    }).catch(function(){done();toast("Gagal membuat Excel. Periksa koneksi lalu coba lagi.",1)});
+  };
+  $("q").addEventListener("input",function(){term=this.value;draw()});
+  $("out").onclick=function(){sb.auth.signOut().then(function(){location.replace("login.html")})};
+  var ready=false;
+  setInterval(function(){if(ready&&!document.hidden)load(true)},60000);
+  document.addEventListener("visibilitychange",function(){if(ready&&!document.hidden)load(true)});
+
+  chips();draw();
+  if(!sb){toast("Library Supabase gagal dimuat. Muat ulang halaman.",1);$("who").textContent="Tidak terhubung";return}
+  sb.auth.getSession().then(function(r){
+    var s=r.data.session;
+    if(!s){location.replace("login.html");return}
+    $("who").textContent="Masuk sebagai "+s.user.email;
+    return sb.rpc("is_admin").then(function(a){
+      if(a.error||a.data!==true){return sb.auth.signOut().then(function(){location.replace("login.html?denied=1")})}
+      return load().then(function(){ready=true});
+    });
+  });
+})();
+</script>
+</body>
+</html>
