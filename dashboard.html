@@ -326,11 +326,32 @@ dialog::backdrop{background:rgba(16,33,63,.6)}
     });
   };
 
+  /* ---------- Nilai bawaan lokasi, grup & template (dipakai jika di database masih kosong) ---------- */
+  var DEF_CFG={
+    lokasi_nama:"Hotel Golden View, Batam",
+    lokasi_alamat:"Jl. Bengkong Laut, Tj. Buntung, Kec. Bengkong, Kota Batam, Kepulauan Riau 29433",
+    lokasi_gps:"https://www.google.com/maps/search/?api=1&query=Golden+View+Hotel+Batam+Jl.+Bengkong+Laut",
+    link_grup:"https://chat.whatsapp.com/HHcBCIKg24T2LFNiIXWnWL",
+    template_wa:"Halo Kak {nama} 👋\n\nSelamat, pendaftaran *{usaha}* (kode {kode}) untuk acara *Sinergi UMKM Ekosistem Pariwisata Kepri* sudah DISETUJUI ✅\n\n📅 Ahad, 22 November 2026\n⏰ 09.00–12.00 WIB\n📍 {lokasi}\n{alamat}\n🗺️ Lokasi (GPS): {gps}\n\nSilakan bergabung ke grup WhatsApp peserta untuk info terbaru:\n{grup}\n\nSampai jumpa di acara! Terima kasih 🙏\n_Panitia Sinergi UMKM Ekosistem Pariwisata Kepri_"
+  };
+  function isiDefault(){
+    var v={},ubah=false;
+    ["lokasi_nama","lokasi_alamat","lokasi_gps","link_grup","template_wa"].forEach(function(k){
+      var cur=cfg[k];
+      if(cur&&String(cur).trim()){v[k]=cur}else{v[k]=DEF_CFG[k];ubah=true}
+    });
+    if(!ubah)return;
+    for(var k in v)cfg[k]=v[k];
+    sb.rpc("set_config_sinergi",{p_lokasi_nama:v.lokasi_nama,p_lokasi_alamat:v.lokasi_alamat,p_lokasi_gps:v.lokasi_gps,p_link_grup:v.link_grup,p_template_wa:v.template_wa}).then(function(r){
+      if(r.error)toast("Gagal menyimpan pengaturan bawaan: "+r.error.message,1);
+    });
+  }
+
   function loadCfg(){
     return sb.rpc("get_config_sinergi").then(function(r){
       var d=r.data&&r.data[0],b=$("toggle");
       if(r.error||!d){b.textContent="Tidak tersedia";$("rsT").textContent="Status pendaftaran tidak diketahui";$("rsP").textContent=r.error?r.error.message:"";return}
-      cfg=d;dibuka=!!d.dibuka;
+      cfg=d;dibuka=!!d.dibuka;isiDefault();
       $("rs").dataset.s=dibuka?"open":"closed";b.disabled=false;
       $("rsT").textContent=dibuka?"Pendaftaran dibuka":"Pendaftaran ditutup";
       $("rsP").textContent=dibuka?"Form menerima pendaftar. Semua masuk antrean verifikasi.":"Form tidak menerima pendaftar baru.";
